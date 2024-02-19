@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>To Do list</title>
+    <style>
+        body{
+        background-color: rgb(92, 250, 92);
+        }
+
+        .container{
+            background-color: #fff;
+            height:450px;
+            width:400px;
+            border:2px solid black;
+            margin:50px auto;
+            padding: 0%;
+            
+
+        }
+
+        .to-do-title{
+            padding:10px;
+            background-color: red;
+            text-align: center;
+            margin-top: 0%;
+        }
+
+        .input-add{
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #input{
+            padding:8px;
+            width:70%
+        }
+
+        #add-btn{
+            padding:5px;
+            width:70px;
+            cursor: pointer;
+        }
+        
+        .list-items{
+
+            border:1px solid black;
+            padding:10px;
+            margin:10px 5px;
+            font-size:large;
+            cursor: pointer;
+
+        }
+
+        .list-container{
+            overflow-y: scroll;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="to-do-title">To Do List</h1>
+
+        <div class="input-add">
+            <input id="input" type="text" placeholder="Enter the task">
+            <button id="add-btn" type="buttom"  onclick="addTask()" >Add</button>
+        </div>
+         
+        <div class="list-container" id="list-container"></div>
+    </div>
+    
+
+
+
+    <script>
+  
+   let  todoList=[];
+   
+
+   const listContainer = document.getElementById("list-container");
+
+   const todoItemsFromLS = localStorage.getItem("todoList");
+   if(todoItemsFromLS){
+    todoList = JSON.parse(todoItemsFromLS);
+    todoList();
+   
+   }
+
+   function addTask(){
+    const inputBox= document.getElementById ( "input");
+    const task = inputBox.value;
+   
+   if(task){
+    todoList.push(task);
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+    inputBox.value="";
+    loadList();
+   }else{
+     alert("Please enter the task")
+   }
+}
+
+    function loadList(){
+    listContainer.innerHTML="";
+
+    for(let i=0; i<todoList.length; i++ ){
+        const task = todoList[i];
+        listContainer.innerHTML+= `<div class="list-item" ${task}> <span onclick= "removeTask(${i})"> 🗑️</span>;</div>`;
+    }
+   }
+
+   function removeTask(index){
+    todoList.splice(index ,1);
+    localStorage.setItem("todoList",JSON.stringify(todoList));
+    loadList();
+
+
+   }
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
